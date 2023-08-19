@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\Company;
+use DB;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
     public function index()
     {
-        $contacts = Contact::orderBy('id', 'desc')->where(function ($query) {
-            if ($companyId = request('company_id')) {
-                $query->where('company_id', $companyId);
-            }
-        })->paginate(10);
         $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        // \Illuminate\Support\Facades\DB::enableQueryLog();
+        $contacts = Contact::latestFirst()->paginate(10);
+        // dd(\Illuminate\Support\Facades\DB::getQueryLog());
+
         return view('contacts.index', compact('contacts', 'companies'));
     }
 
