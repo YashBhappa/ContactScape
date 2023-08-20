@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $faker = \Faker\Factory::create();
+        // $faker = \Faker\Factory::create();
 
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId("user_id")->constrained()->onDelete("cascade");
+            $table->foreignId("company_id")->constrained()->onDelete("cascade");
             $table->string("first_name", 100);
             $table->string("last_name", 100);
             $table->string("phone", 100)->nullable();
@@ -26,7 +28,6 @@ return new class extends Migration
             $table->string("interest", 100)->nullable();
             $table->string("channel", 100)->nullable();
             $table->timestamps();
-            $table->foreignId("company_id")->constrained()->onDelete("cascade");
 
             // $table->unsignedBigInteger("company_id");
             // $table->foreign("company_id")->references("id")->on("companies")->onDelete("cascade");

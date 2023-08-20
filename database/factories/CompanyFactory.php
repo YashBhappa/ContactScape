@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,6 +24,7 @@ class CompanyFactory extends Factory
             "website" => $this->faker->domainName,
             "created_at" => $this->faker->dateTimeThisDecade(),
             "updated_at" => $this->faker->dateTimeThisMonth(),
+            "user_id" => User::factory(),
         ];
     }
 }

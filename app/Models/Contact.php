@@ -11,11 +11,16 @@ class Contact extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["first_name", "last_name", "phone", "email", "address", "position", "city", "country", "interest", "channel", "company_id"];
+    protected $fillable = ["first_name", "last_name", "phone", "email", "address", "position", "city", "country", "interest", "channel", "company_id", "user_id"];
 
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function scopeLatestFirst($query)

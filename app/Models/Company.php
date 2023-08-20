@@ -9,11 +9,15 @@ class Company extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["name", "email", "logo", "website"];
-    protected $guarded = ["id", "created_at", "updated_at"];
+    public $fillable = ["name", "address", "email", "website", "user_id"];
 
     public function contacts()
     {
         return $this->hasMany(Contact::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

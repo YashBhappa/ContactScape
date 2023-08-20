@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
-class UserTableSeeder extends Seeder
+class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        DB::table('users')->truncate();
+        DB::table('users')->delete();
 
         foreach (range(0, 100) as $_) {
             DB::table('users')->insert([

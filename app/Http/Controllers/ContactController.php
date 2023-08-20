@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
+use App\Models\User;
 use App\Models\Company;
+use App\Models\Contact;
+
 use DB;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth', 'verified']);
+    }
     public function index()
     {
-        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $user = auth()->user();
+        $companies = $user->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        // ...
+
         // \Illuminate\Support\Facades\DB::enableQueryLog();
-        $contacts = Contact::latestFirst()->paginate(10);
+        $contacts = $user->contacts()->latestFirst()->paginate(10);
         // dd(\Illuminate\Support\Facades\DB::getQueryLog());
 
         return view('contacts.index', compact('contacts', 'companies'));
@@ -22,7 +31,7 @@ class ContactController extends Controller
     public function create()
     {
         $contact = new Contact();
-        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
         return view('contacts.create', compact('companies', 'contact'));
     }
 
@@ -42,7 +51,8 @@ class ContactController extends Controller
             'company_id' => 'required|exists:companies,id',
         ]);
 
-        Contact::create($request->all());
+        // Contact::create($request->all() + ['user_id' => auth()->user()->id]);
+        $request->user()->contacts()->create($request->all());
 
         // dd($request->all());
         // dd($request->only('first_name'));
@@ -55,7 +65,7 @@ class ContactController extends Controller
     public function edit($id)
     {
         $contact = Contact::findOrFail(request('id'));
-        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
         return view('contacts.edit', compact('contact', 'companies'));
     }
 
