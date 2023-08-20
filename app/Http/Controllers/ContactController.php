@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Company;
+use App\Http\Requests\ContactRequest;
 use App\Models\Contact;
 
 use DB;
-use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -18,7 +16,7 @@ class ContactController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $companies = $user->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = Contact::userCompanies();
         // ...
 
         // \Illuminate\Support\Facades\DB::enableQueryLog();
@@ -31,30 +29,21 @@ class ContactController extends Controller
     public function create()
     {
         $contact = new Contact();
-        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = Contact::userCompanies();
         return view('contacts.create', compact('companies', 'contact'));
     }
 
-    public function show($id)
+    public function show(Contact $contact)
     {
-        $contact = Contact::findOrFail($id);
         return view('contacts.show', compact('contact'));
     }
 
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
-        $this->validate($request, [
-            'first_name' => 'required|min:3',
-            'last_name' => 'required|min:3',
-            'email' => 'required|email',
-            'phone' => 'required|min:10',
-            'company_id' => 'required|exists:companies,id',
-        ]);
 
         // Contact::create($request->all() + ['user_id' => auth()->user()->id]);
         $request->user()->contacts()->create($request->all());
 
-        // dd($request->all());
         // dd($request->only('first_name'));
         // dd($request->except('first_name'));
 
@@ -62,32 +51,22 @@ class ContactController extends Controller
         return redirect('/contacts')->with('message', 'Contact created successfully.');
     }
 
-    public function edit($id)
+    public function edit(Contact $contact)
     {
-        $contact = Contact::findOrFail(request('id'));
-        $companies = auth()->user()->companies()->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        $companies = Contact::userCompanies();
         return view('contacts.edit', compact('contact', 'companies'));
     }
 
-    public function update($id, Request $request)
+    public function update(Contact $contact, ContactRequest $request)
     {
-        $this->validate($request, [
-            'first_name' => 'required|min:3',
-            'last_name' => 'required|min:3',
-            'email' => 'required|email',
-            'phone' => 'required|min:10',
-            'company_id' => 'required|exists:companies,id',
-        ]);
 
-        $contact = Contact::findOrFail(request('id'));
         $contact->update($request->all());
 
         return redirect('/contacts')->with('message', 'Contact edited successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(Contact $contact)
     {
-        $contact = Contact::findOrFail(request('id'));
         $contact->delete();
 
         return back()->with('message', 'Contact deleted successfully.');

@@ -33,4 +33,9 @@ class Contact extends Model
         static::addGlobalScope(new FilterScope);
         static::addGlobalScope(new SearchScope);
     }
+
+    public static function userCompanies()
+    {
+        return Company::where('user_id', auth()->user()->id)->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+    }
 }
