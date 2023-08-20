@@ -33,7 +33,7 @@ Route::get('/', [ContactController::class, 'index'])->name('contacts.index');
 
 // Route::get('/contacts/{contact}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
 
-Route::resources(['/contacts' => ContactController::class, 'company' => CompanyController::class]);
+Route::resources(['/contacts' => ContactController::class, 'companies' => CompanyController::class]);
 
 Auth::routes();
 
