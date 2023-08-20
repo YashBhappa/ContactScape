@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
+use App\Scopes\CompanySearchScope;
 use App\Scopes\ReusableSearchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CompanySearchScope extends ReusableSearchScope
-{
-    protected $searchVariables = ["name", "address", "email", "website"];
-}
 
 class Company extends Model
 {
