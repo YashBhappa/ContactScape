@@ -8,42 +8,42 @@ if (filterCompany) {
     });
 }
 
-document.querySelectorAll("#btn-delete").forEach(function (element) {
-    element.addEventListener("click", function (event) {
+document.querySelectorAll(".btn-delete").forEach((button) => {
+    button.addEventListener("click", function (event) {
         event.preventDefault();
-        let url = this.getAttribute("href");
-        console.log(url);
-        let form = document.getElementById("form-delete");
-        form.setAttribute("action", url);
-
         if (confirm("Are you sure?")) {
+            let action = this.getAttribute("href");
+            let form = document.getElementById("form-delete");
+            form.setAttribute("action", action);
             form.submit();
         }
     });
 });
 
-let btn_clear = document.getElementById("btn-clear");
-if (btn_clear) {
-    btn_clear.addEventListener("click", function () {
-        let input = document.getElementById("search");
+let btnClear = document.getElementById("btn-clear");
+if (btnClear) {
+    btnClear.addEventListener("click", () => {
+        let input = document.getElementById("search"),
+            select = document.getElementById("filter_company_id");
+
         if (input) input.value = "";
-
-        let select = document.getElementById("filter_company_id");
         if (select) select.selectedIndex = 0;
-
         window.location.href = window.location.href.split("?")[0];
     });
 }
 
-function toggleClearButton() {
-    let query = window.location.search;
-    let pattern = /[?&]search=/;
-    if (pattern.test(query)) {
-        document.getElementById("btn-clear").style.display = "block";
-    } else {
-        document.getElementById("btn-clear").style.display = "none";
-    }
+const toggleClearButton = () => {
+    let query = location.search,
+        pattern = /[?&]search=/,
+        button = document.getElementById("btn-clear");
 
+    if (button == undefined) return;
+
+    if (pattern.test(query)) {
+        button.style.display = "block";
+    } else {
+        button.style.display = "none";
+    }
     // let input = document.getElementById("search");
     // let select = document.getElementById("filter_company_id");
     // let clearButton = document.getElementById("btn-clear");
@@ -53,6 +53,6 @@ function toggleClearButton() {
     // } else {
     //     clearButton.style.display = "none";
     // }
-}
+};
 
 toggleClearButton();

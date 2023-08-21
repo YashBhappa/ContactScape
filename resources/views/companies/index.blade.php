@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Contact App | All Contacts')
+@section('title', 'ContactScape | All Contacts')
 @section('content')
     <!-- content -->
     <main class="py-5 ">
@@ -30,9 +30,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if ($status = session('message'))
-                                        <div class="alert alert-success">{{ $status }}</div>
-                                    @endif
+                                    @include('layouts._message_form')
                                     @if ($companies->count())
                                         @foreach ($companies as $index => $company)
                                             <tr>

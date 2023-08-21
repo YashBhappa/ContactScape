@@ -20,7 +20,7 @@ class ContactController extends Controller
         // ...
 
         // \Illuminate\Support\Facades\DB::enableQueryLog();
-        $contacts = $user->contacts()->latestFirst()->paginate(10);
+        $contacts = $user->contacts()->with('company')->latestFirst()->paginate(10);
         // dd(\Illuminate\Support\Facades\DB::getQueryLog());
 
         return view('contacts.index', compact('contacts', 'companies'));

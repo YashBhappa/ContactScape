@@ -12,7 +12,9 @@ class Contact extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["first_name", "last_name", "phone", "email", "address", "position", "city", "country", "interest", "channel"];
+    protected $fillable = ["first_name", "last_name", "phone", "email", "address", "position", "city", "country", "interest", "channel", "company_id", "user_id"];
+
+    // protected $with = ['company', 'contacts'];
 
     public function company()
     {

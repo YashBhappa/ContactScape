@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
-// use App\Models\Contact;
+use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\Settings\AccountController;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -38,3 +40,9 @@ Route::resources(['/contacts' => ContactController::class, 'companies' => Compan
 Auth::routes();
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/settings/account', [AccountController::class, 'index']);
+
+Route::get('/settings/profile', [ProfileController::class, 'edit'])->name('settings.profile.edit');
+
+Route::put('/settings/profile', [ProfileController::class, 'update'])->name('settings.profile.update');

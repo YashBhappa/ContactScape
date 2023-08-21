@@ -10,5 +10,5 @@ RUN composer install
 
 EXPOSE 8000
 
-CMD ["php", "artisan", "serve"]
+CMD ["php", "artisan", "migrate:fresh --seed && npm run dev && php artisan serve"]
 

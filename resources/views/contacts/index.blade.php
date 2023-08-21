@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Contact App | All Contacts')
+@section('title', 'ContactScape | All Contacts')
 @section('content')
     <!-- content -->
     <main class="py-5 ">
@@ -30,9 +30,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if ($status = session('message'))
-                                        <div class="alert alert-success">{{ $status }}</div>
-                                    @endif
+                                    @include('layouts._message_form')
                                     @if ($contacts->count())
                                         @foreach ($contacts as $index => $contact)
                                             <tr>
@@ -41,7 +39,9 @@
                                                 </td>
                                                 <td>{{ $contact->last_name }}</td>
                                                 <td>{{ $contact->email }}</td>
-                                                <td>{{ $contact->company->name }}</td>
+                                                {{-- <td>{{ $contact->company->name }}</td> --}}
+                                                <td>{{ optional($contact->company)->name }}</td>
+
                                                 <td width="150">
                                                     <a href="{{ route('contacts.show', $contact->id) }}"
                                                         class="btn btn-sm btn-circle btn-outline-info" title="Show"><i
@@ -61,7 +61,8 @@
                             </table>
 
                             <div class="">
-                                {{ $contacts->appends(request()->only('company_id'))->links() }}
+                                {{-- {{ $contacts->appends(request()->only('company_id'))->links() }} --}}
+                                {{ $contacts->withQueryString()->links() }}
                             </div>
                         </div>
                     </div>

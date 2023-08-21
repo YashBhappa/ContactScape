@@ -14,6 +14,8 @@ class Company extends Model
 
     public $fillable = ["name", "address", "email", "website", "user_id"];
 
+    // protected $with = ['contacts'];
+
     public function contacts()
     {
         return $this->hasMany(Contact::class);

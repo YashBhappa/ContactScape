@@ -18,7 +18,7 @@ class UsersTableSeeder extends Seeder
 
         DB::table('users')->delete();
 
-        foreach (range(0, 100) as $_) {
+        foreach (range(0, 5) as $_) {
             DB::table('users')->insert([
                 'name' => $faker->name,
                 'email' => $faker->email,

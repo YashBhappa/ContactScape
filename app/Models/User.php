@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 
@@ -19,10 +20,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'id',
-        'name',
+        'first_name',
+        'last_name',
+        'company',
+        'bio',
         'email',
         'password',
+        'profile_picture'
     ];
 
     /**
@@ -35,6 +39,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
     /**
      * The attributes that should be cast.
      *
@@ -44,6 +49,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array<string>
+     */
+    protected $with = ['companies', 'contacts'];
 
     /**
      * Get all of the companies for the User
@@ -64,5 +76,17 @@ class User extends Authenticatable
     public function contacts()
     {
         return $this->hasMany(Contact::class);
+    }
+
+    public function fullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function profileUrl()
+    {
+        return Storage::exists($this->profile_picture)
+            ? Storage::url($this->profile_picture)
+            : 'http://via.placeholder.com/150x150';
     }
 }
