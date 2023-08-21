@@ -22,7 +22,7 @@ class ReusableSearchScope implements Scope
 
     public function apply(Builder $builder, Model $model)
     {
-        if ($search = request('search')) {
+        if ($search = request()->query('search')) {
             $firstIteration = true; // Flag to track the first iteration
 
             foreach ($this->searchVariables as $column) {

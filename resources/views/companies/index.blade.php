@@ -61,7 +61,7 @@
                             </table>
 
                             <div class="">
-                                {{ $companies->appends(request()->only('company_id'))->links() }}
+                                {{ $companies->withQueryString()->links() }}
                             </div>
                         </div>
                     </div>

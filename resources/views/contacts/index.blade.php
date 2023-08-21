@@ -39,8 +39,8 @@
                                                 </td>
                                                 <td>{{ $contact->last_name }}</td>
                                                 <td>{{ $contact->email }}</td>
-                                                {{-- <td>{{ $contact->company->name }}</td> --}}
-                                                <td>{{ optional($contact->company)->name }}</td>
+                                                <td>{{ $contact->company->name }}</td>
+                                                {{-- <td>{{ optional($contact->company)->name }}</td> --}}
 
                                                 <td width="150">
                                                     <a href="{{ route('contacts.show', $contact->id) }}"

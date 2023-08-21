@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\CompanySearchScope;
+use App\Scopes\ContactSearchScope;
 use App\Scopes\ReusableSearchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ class Company extends Model
 
     public function contacts()
     {
-        return $this->hasMany(Contact::class);
+        return $this->hasMany(Contact::class)->withoutGlobalScope(ContactSearchScope::class);
     }
 
     public function user()

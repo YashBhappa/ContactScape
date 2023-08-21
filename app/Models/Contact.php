@@ -18,7 +18,7 @@ class Contact extends Model
 
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class)->withoutGlobalScopes();
     }
 
     public function user()
@@ -39,6 +39,6 @@ class Contact extends Model
 
     public static function userCompanies()
     {
-        return Company::where('user_id', auth()->user()->id)->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+        return Company::withoutGlobalScopes()->where('user_id', auth()->user()->id)->orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
     }
 }
